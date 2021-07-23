@@ -149,7 +149,7 @@ x_valid_ood=get_outliers(ood_set, flip=flip)
 
 generator_path   = os.path.join(params['module_dir'],'decoder')
 encoder_path     = os.path.join(params['module_dir'],'encoder')
-nvp_path         = os.path.join(params['module_dir'],'tag7_130')
+nvp_path         = os.path.join(params['module_dir'],'flow2_130')
 
 
 # In[13]:
