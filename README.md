@@ -41,7 +41,7 @@ If you are looking for a well commented, Google Colab compatible template to tra
 Pretrained models can be downloaded [here]()
 
 ## Model Evaluation
-We provide notebooks and python scripts for model evaluation and reproducing our results (to reproduce results download pretrained models and adapt the location in the script accordingly).
+We provide notebooks and python scripts for model evaluation and reproducing our results (to reproduce results download pretrained models and adapt *params['module_dir']* accordingly).
 
 ### Reconstruction Error
 To measure the reconstruction error and related statistics for each model, run notebooks in [this](https://github.com/VMBoehm/PAE-ablation/tree/master/notebooks/Reconstructions) folder.
