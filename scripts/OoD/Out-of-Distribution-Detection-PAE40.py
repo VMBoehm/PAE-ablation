@@ -65,9 +65,9 @@ param_file = 'params_fmnist_-1_40_infoGAN_AE_best_params_noaugment_full_sigma'
 params      = pickle.load(open(os.path.join(PARAMS_PATH,param_file+'.pkl'),'rb'))
 ood_set='mnist'
 flip=''
-generator_path   = os.path.join(params['module_dir'],'decoder')
-encoder_path     = os.path.join(params['module_dir'],'encoder')
-nvp_path         = os.path.join(params['module_dir'],'nf_tag7_90')
+generator_path   = os.path.join(params['module_dir'],'PAE_decoder')
+encoder_path     = os.path.join(params['module_dir'],'PAE_encoder')
+nvp_path         = os.path.join(params['module_dir'],'PAE_flow')
 
 
 

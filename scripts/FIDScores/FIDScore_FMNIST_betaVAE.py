@@ -96,9 +96,9 @@ x_valid    = x_valid/255.-0.5
 # In[10]:
 
 
-generator_path   = os.path.join(params['module_dir'],'decoder')
-encoder_path     = os.path.join(params['module_dir'],'encoder')
-nvp_path         = os.path.join(params['module_dir'],'flow2_130')
+generator_path   = os.path.join(params['module_dir'],'beta0VAE_decoder')
+encoder_path     = os.path.join(params['module_dir'],'beta0VAE_encoder')
+nvp_path         = os.path.join(params['module_dir'],'beta0VAE_flow')
 
 
 # In[11]:
