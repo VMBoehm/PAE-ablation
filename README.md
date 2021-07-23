@@ -54,7 +54,7 @@ Our Out-of-Distribution detection scripts compute the AUROC of separating sample
 The scripts can be found [here](https://github.com/VMBoehm/PAE-ablation/tree/master/scripts/OoD). 
 
 ### Image Imputation
-Code for reconstructing corrupted images with either our flow-VAE or the PAE model can be found in these [notebooks](https://github.com/VMBoehm/PAE-ablation/tree/master/notebooks/ImageRestoration).
+Code for reconstructing corrupted images with either our flow-VAE or PAE model can be found in these [notebooks](https://github.com/VMBoehm/PAE-ablation/tree/master/notebooks/ImageRestoration).
 
 ### Generalization
 Our model generalization tests by means of nearest neighbor searches can be found in our reconstruction error notebooks. 
