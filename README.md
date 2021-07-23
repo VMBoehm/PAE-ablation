@@ -38,7 +38,7 @@ If you are looking for a well commented, Google Colab compatible template to tra
 
 
 ## Pretrained Models
-Pretrained models can be downloaded [here]()
+Pretrained models can be downloaded [here](https://zenodo.org/record/5130620)
 
 ## Model Evaluation
 We provide notebooks and python scripts for model evaluation and reproducing our results (to reproduce results download pretrained models and adapt *params['module_dir']* accordingly).
