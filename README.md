@@ -61,4 +61,4 @@ Our model generalization tests by means of nearest neighbor searches can be foun
 
 ### Credits and Citing
 If you use the PAE for your research, please cite the [PAE paper](https://arxiv.org/abs/2006.05479)
-If you use code from this repository, please use it's DOI to cite it.
+If you use code from this repository, please use its DOI to cite it.
