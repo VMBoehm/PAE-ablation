@@ -70,7 +70,7 @@ flags.DEFINE_integer('n_filt',default=32,help='number of filters to use in the f
 flags.DEFINE_integer('dense_size', default=256, help='number of connnections in the fc resnet')
 flags.DEFINE_integer('n_layers',default=4, help='number of layers in the fc resnet')
 flags.DEFINE_boolean('bias', default=False, help='whether to use a bias in the convolutions')
-flags.DEFINE_float('dropout_rate', default=0.15, help='dropout rate used in infoGAN')
+flags.DEFINE_float('dropout_rate', default=0.0, help='dropout rate used in infoGAN')
 flags.DEFINE_float('sigma', default=0.05, help='initial value of sigma in Gaussian likelihood')
 flags.DEFINE_integer('class_label', default=-1, help='number of specific class to train on. -1 for all classes')
 flags.DEFINE_string('tag', default='model_2', help='optional additional tag that is added to name of the run')
