@@ -19,7 +19,7 @@ import sklearn.metrics as metrics
 import pickle
 import pandas
 
-from models import ToFloatTensor2D, Model
+from models_cifar import ToFloatTensor2D, Model
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print(device)
@@ -32,30 +32,29 @@ EPOCHS      = 200
 
 print(code_length,EPOCHS)
 
-for index in np.arange(7,10):
+for index in np.arange(0,1):
     print(index)
-    mnist_train = torchvision.datasets.MNIST('/global/cscratch1/sd/vboehm/Datasets', train=True, transform = ToFloatTensor2D(device))
-    mnist_test  = torchvision.datasets.MNIST('/global/cscratch1/sd/vboehm/Datasets', train=False, transform = ToFloatTensor2D(device))
-    mnist_valid = torchvision.datasets.MNIST('/global/cscratch1/sd/vboehm/Datasets', train=False, transform = ToFloatTensor2D(device))
+    cifar_train = torchvision.datasets.CIFAR10('/global/cscratch1/sd/vboehm/Datasets', train=True, transform = ToFloatTensor2D(device), download=True)
+    cifar_test  = torchvision.datasets.CIFAR10('/global/cscratch1/sd/vboehm/Datasets', train=False, transform = ToFloatTensor2D(device), download=True)
+    cifar_valid = torchvision.datasets.CIFAR10('/global/cscratch1/sd/vboehm/Datasets', train=False, transform = ToFloatTensor2D(device), download=True)
 
-    idx = mnist_train.targets == index
-    mnist_train.targets = mnist_train.targets[idx]
-    mnist_train.data    = mnist_train.data[idx]
+    idx = np.asarray(cifar_valid.targets) == index
+    cifar_valid.targets = np.asarray(cifar_valid.targets)[idx]
+    cifar_valid.data    = cifar_valid.data[idx]
 
-    idx = mnist_valid.targets == index
-    mnist_valid.targets = mnist_valid.targets[idx]
-    mnist_valid.data    = mnist_valid.data[idx]
-
-    idx1 = mnist_test.targets == index
-    idx2 = mnist_test.targets != index
-    mnist_test.targets[idx1] = torch.ones(mnist_test.targets[idx1].shape,dtype=torch.int64)
-    mnist_test.targets[idx2] = torch.zeros(mnist_test.targets[idx2].shape,dtype=torch.int64)
+    idx1 = np.asarray(cifar_test.targets) == index
+    idx2 = np.asarray(cifar_test.targets) != index
+    cifar_test.targets = np.asarray(cifar_test.targets)
+    cifar_test.targets[idx1] = torch.ones(np.asarray(cifar_test.targets)[idx1].shape,dtype=torch.int64)
+    cifar_test.targets[idx2] = torch.zeros(np.asarray(cifar_test.targets)[idx2].shape,dtype=torch.int64)
 
 
 
-    train_dataloader = DataLoader(mnist_train, batch_size=batch_size, shuffle=True)
-    test_dataloader  = DataLoader(mnist_test, batch_size=batch_size, shuffle=True)
-    valid_dataloader  = DataLoader(mnist_valid, batch_size=batch_size, shuffle=True)
+
+    train_dataloader = DataLoader(cifar_train, batch_size=64, shuffle=True)
+    test_dataloader  = DataLoader(cifar_test, batch_size=64, shuffle=True)
+    valid_dataloader  = DataLoader(cifar_valid, batch_size=64, shuffle=True)
+
 
 
     model = Model(code_length).to(device)
@@ -120,7 +119,7 @@ for index in np.arange(7,10):
         scheduler.step(avg_vloss)
         if avg_vloss < best_vloss:
             best_vloss = avg_vloss
-            model_path = '/global/cscratch1/sd/vboehm/AbatiExperiments/model_{}_{}_{}'.format(timestamp, index,code_length)
+            model_path = '/global/cscratch1/sd/vboehm/AbatiExperiments/cifar_model_{}_{}_{}'.format(timestamp, index,code_length)
             torch.save(model.state_dict(), model_path)
             no_improv = 0
         else:
@@ -136,9 +135,9 @@ for index in np.arange(7,10):
     encoder = model.encoder.cuda()
     encoder = encoder.train(False)
 
-    train_dataloader  = DataLoader(mnist_train, batch_size=len(mnist_train), shuffle=True)
-    test_dataloader   = DataLoader(mnist_test, batch_size=len(mnist_test), shuffle=True)
-    valid_dataloader  = DataLoader(mnist_valid, batch_size=len(mnist_valid), shuffle=True)
+    train_dataloader  = DataLoader(cifar_train, batch_size=len(cifar_train), shuffle=True)
+    test_dataloader   = DataLoader(cifar_test, batch_size=len(cifar_test), shuffle=True)
+    valid_dataloader  = DataLoader(cifar_valid, batch_size=len(cifar_valid), shuffle=True)
 
     data, _        = next(iter(train_dataloader))
     data           =  data.to(device)
@@ -156,7 +155,7 @@ for index in np.arange(7,10):
 
     gis = GIS.GIS(encoded_train, data_validate=encoded_valid, verbose=False)
 
-    torch.save(gis, os.path.join('/global/cscratch1/sd/vboehm/AbatiExperiments', 'GIS_{}_{}'.format(index,code_length)))
+    torch.save(gis, os.path.join('/global/cscratch1/sd/vboehm/AbatiExperiments', 'cifar_GIS_{}_{}'.format(index,code_length)))
 
     logps       = gis.evaluate_density(encoded_train).detach().cpu().numpy()
     logps_valid = gis.evaluate_density(encoded_valid).detach().cpu().numpy()
@@ -170,10 +169,10 @@ for index in np.arange(7,10):
 
     auroc          = metrics.roc_auc_score(test_labels, np.asarray(percentile))
 
-    results = pickle.load(open('results_2.dict', 'rb'))
+    results = pickle.load(open('results_cifar.dict', 'rb'))
 
     results[index] = auroc
 
-    pickle.dump(results, open('results_2.dict', 'wb'))
+    pickle.dump(results, open('results_cifar.dict', 'wb'))
     print('results updated')
 

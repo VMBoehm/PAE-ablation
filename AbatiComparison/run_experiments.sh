@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH -A m3058
 #SBATCH -C gpu
-#SBATCH -q regular
-#SBATCH -t 2:00:00
+#SBATCH -q regular 
+#SBATCH -t 02:00:00
 #SBATCH -n 1
 #SBATCH --ntasks-per-node=1
 #SBATCH -c 10
@@ -15,4 +15,4 @@ export SLURM_CPU_BIND="cores"
 module load python
 source activate pytorch
 
-srun python -u run.py
+srun python -u run-cifar.py
